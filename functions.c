@@ -133,7 +133,7 @@ else
 {
 fields = mysql_num_fields(sqlres);
 while((row = mysql_fetch_row(sqlres)))
-numbers = atoi(row[0]);
+*numbers = *row[0];
 mysql_free_result(sqlres);
 }
 return numbers;
@@ -155,7 +155,7 @@ else
 {
 fields = mysql_num_fields(sqlres);
 while((row = mysql_fetch_row(sqlres)))
-numbers = atoi(row[0]);
+*numbers = *row[0];
 mysql_free_result(sqlres);
 }
 return numbers;
@@ -512,60 +512,59 @@ if((row = mysql_fetch_row(sqlres)))
 {
 char who[128];
 if(row[9] != NULL) sprintf(who, "%s", row[9]);
-u->id = atoi(row[0]);
-u->numer = atoi(row[1]);
+u->id = *row[0];
+u->numer = *row[1];
 u->nick = row[2];
-u->online = atoi(row[3]);
-u->ankieta = atoi(row[4]);
-u->staff = atoi(row[5]);
-u->ban = atoi(row[6]);
-u->czasban = atoi(row[7]);
+u->online = *row[3];
+u->ankieta = *row[4];
+u->staff = *row[5];
+u->ban = *row[6];
+u->czasban = *row[7];
 u->powod = row[8];
 u->kto = who;
-printf("Za banem");
-u->czas = atoi(row[10]);
+u->czas = *row[10];
 u->zgoda = row[11];
-u->wiadomosci = atoi(row[12]);
-u->znaki = atoi(row[13]);
-u->wyrazy = atoi(row[14]);
-u->wejscia = atoi(row[15]);
+u->wiadomosci = *row[12];
+u->znaki = *row[13];
+u->wyrazy = *row[14];
+u->wejscia = *row[15];
 u->opis = row[16];
 u->echo = row[17];
-u->poke = atoi(row[18]);
-u->tarcza = atoi(row[19]);
-u->tarcza2 = atoi(row[20]);
-u->poke2 = atoi(row[21]);
-u->poke3 = atoi(row[22]);
-u->kostka = atoi(row[23]);
-u->kosci = atoi(row[24]);
-u->kieszonkowiec = atoi(row[25]);
-u->kolo = atoi(row[26]);
-u->moneta = atoi(row[27]);
-u->lvl = atoi(row[28]);
-u->xp = atoi(row[29]);
-u->exp = atoi(row[30]);
-u->zl = atof(row[31]);
-u->wejscie = atoi(row[32]);
-u->wyjscie = atoi(row[33]);
-u->sprej = atoi(row[34]);
-u->spy = atoi(row[35]);
-u->karta = atoi(row[36]);
-u->karta2 = atoi(row[37]);
-u->kartamx = atoi(row[38]);
-u->mpoke = atoi(row[39]);
-u->okradanie = atoi(row[40]);
-u->mtarcza = atoi(row[41]);
-u->sejf = atoi(row[42]);
+u->poke = *row[18];
+u->tarcza = *row[19];
+u->tarcza2 = *row[20];
+u->poke2 = *row[21];
+u->poke3 = *row[22];
+u->kostka = *row[23];
+u->kosci = *row[24];
+u->kieszonkowiec = *row[25];
+u->kolo = *row[26];
+u->moneta = *row[27];
+u->lvl = *row[28];
+u->xp = *row[29];
+u->exp = *row[30];
+u->zl = *row[31];
+u->wejscie = *row[32];
+u->wyjscie = *row[33];
+u->sprej = *row[34];
+u->spy = *row[35];
+u->karta = *row[36];
+u->karta2 = *row[37];
+u->kartamx = *row[38];
+u->mpoke = *row[39];
+u->okradanie = *row[40];
+u->mtarcza = *row[41];
+u->sejf = *row[42];
 u->zabawy = row[43];
-u->rabat = atof(row[44]);
-u->zw = atoi(row[45]);
+u->rabat = *row[44];
+u->zw = *row[45];
 u->bufor = row[46];
 u->pass = row[47];
 u->method = row[48];
-u->czasonline = atoi(row[49]);
-u->kicki = atoi(row[50]);
-u->changenick = atoi(row[51]);
-u->mssv = atoi(row[52]);
+u->czasonline = *row[49];
+u->kicki = *row[50];
+u->changenick = *row[51];
+u->mssv = *row[52];
 return 0;
 }
 }
@@ -596,4 +595,7 @@ fprintf(stdout, "%s", buf2);
 free(mal1);
 free(mal2);
 }
-
+int cmp(char* msg1, char* msg2)
+{
+return strcmp(msg1, msg2);
+}

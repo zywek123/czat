@@ -30,6 +30,7 @@ void debug(const char* txt, ...);
 void addmsg(const char* text, int rec);
 int get_ui(int kto);
 void pfprintf(char* txt, ...);
+int cmp(char* msg1, char* msg2);
 struct user
 {
 int id;

@@ -168,7 +168,7 @@ if(*row[1] > staff)
 addmsg("Nie posiadasz wystarczających uprawnień by wykonać tę komendę!", u->numer);
 free(u);
 }
-/* odwołanie się do wskaźnika na funkcje. Na razie nie mam konwencji jak to zrobić */
+preprocess_cmd(row[0]);
 }
 }
 }
