@@ -137,6 +137,51 @@ addmsg("Jesteś na zw. Nie możesz pisać", u->numer);
 free(u);
 break;
 }
+if((*e->event.msg.message == '>') || (*e->event.msg.message == 47) || (*e->event.msg.message == 46))
+{
+if(strlen(e->event.msg.message) > 200)
+{
+addmsg("Twoja wiadomość jest zbyt długa. Maks: 200 znaków!", u->numer);
+free(u);
+}
+else
+{
+char buf[128];
+sprintf(buf, "select `komenda`,`staff` from `komendy` where `komenda` = '%s' or `alias` = '%s'", e->event.msg.message, e->event.msg.message);
+int fields;
+memset(&fields, 0, sizeof(&fields));
+mysql_query(&conn, buf);
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+addmsg("Podana komenda nie istnieje!", u->numer);
+free(u);
+}
+else
+{
+fields = mysql_num_fields(sqlres);
+int staff = u->staff;
+if((row = mysql_fetch_row(sqlres)))
+{
+if(*row[1] > staff)
+{
+addmsg("Nie posiadasz wystarczających uprawnień by wykonać tę komendę!", u->numer);
+free(u);
+}
+/* odwołanie się do wskaźnika na funkcje. Na razie nie mam konwencji jak to zrobić */
+}
+}
+}
+break;
+}
+
+
+
+
+
+
+
+
 
 break;
 
