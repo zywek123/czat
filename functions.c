@@ -4,6 +4,7 @@ extern MYSQL conn;
 extern MYSQL_RES *sqlres;
 extern MYSQL_ROW row;
 extern struct user *u;
+extern struct gg_session *s;
 struct fmt rtf(char *format_i)
 {
 char *format = NULL;
@@ -117,7 +118,23 @@ return zwrot;
 
 int* onlinenum(void)
 {
-
+int fields;
+int* numbers;
+memset(&fields, 0, sizeof(&fields));
+mysql_query(&conn, "select `numer` from `userzy` where online = 1");
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+pfprintf("Brak danych do pobrania\n");
+}
+else
+{
+fields = mysql_num_fields(sqlres);
+while((row = mysql_fetch_row(sqlres)))
+numbers = atoi(row[0]);
+mysql_free_result(sqlres);
+}
+return numbers;
 }
 int* rback(void)
 {
@@ -136,7 +153,6 @@ void debug(const char* txt, ...)
 }
 void addmsg(const char* text, int rec)
 {
-extern struct gg_session *s;
 int strl = strlen(text);
 gg_send_message_html(s, GG_CLASS_MSG, rec, text);
 }
