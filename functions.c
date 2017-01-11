@@ -121,7 +121,9 @@ int* onlinenum(void)
 int fields;
 int* numbers;
 memset(&fields, 0, sizeof(&fields));
-mysql_query(&conn, "select `numer` from `userzy` where online = 1");
+char buf[256];
+sprintf(buf, "select `numer` from `userzy` where `online` = 1 and not `numer` =%d", u->numer);
+mysql_query(&conn, buf);
 sqlres = mysql_store_result(&conn);
 if(mysql_num_rows(sqlres) == 0)
 {
@@ -138,14 +140,342 @@ return numbers;
 }
 int* rback(void)
 {
+int fields;
+int* numbers;
+memset(&fields, 0, sizeof(&fields));
+char buf[256];
+sprintf(buf, "select `numer` from `userzy` where `online` = 1");
+mysql_query(&conn, buf);
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+pfprintf("Brak danych do pobrania\n");
+}
+else
+{
+fields = mysql_num_fields(sqlres);
+while((row = mysql_fetch_row(sqlres)))
+numbers = atoi(row[0]);
+mysql_free_result(sqlres);
+}
+return numbers;
 }
 char* fnick(char* nick, int staff)
 {
+char* ret;
+memset(&ret, 0, sizeof(&ret));
+char* unick;
+memset(&unick, 0, sizeof(&unick));
 switch(staff)
 {
+case 1:
+	    unick = "$";
+	    break;
+	 case 2:
+	    unick = "$";
+	    break;
+	 case 3:
+	    unick = "$";
+	    break;
+	 case 4:
+	    unick = "$";
+	    break;
+	 case 5:
+	    unick = "+";
+	    break;
+	 case 6:
+	    unick = "+";
+	    break;
+         case 7:
+	    unick = "+";
+	    break;
+	 case 8:
+	    unick = "+";
+	    break;
+	 case 9:
+	    unick = "+";
+	    break;
+	 case 10:
+	    unick = "%";
+	    break;
+	 case 11:
+	    unick = "%";
+	    break;
+	 case 12:
+	    unick = "%";
+	    break;
+	 case 13:
+	    unick = "%";
+	    break;
+	 case 14:
+            unick = "%";
+	    break;
+	 case 15:
+	    unick = "@";
+	    break;
+	 case 16:
+	    unick = "@";
+	    break;
+	 case 17:
+	    unick = "@";
+	    break;
+	 case 18:
+	    unick = "@";
+	    break;
+	 case 19:
+	    unick = "@";
+	    break;
+         case 20:
+	    unick = "~";
+	    break;
+	 case 21:
+	    unick = "~";
+	    break;
+	 case 22:
+	    unick = "~";
+	    break;
+	 case 23:
+	    unick = "~";
+	    break;
+	 case 24:
+	    unick = "~";
+	    break;
+	 case 25:
+	    unick = "~";
+	    break;
+	 case 27:
+	    unick = "~";
+	    break;
+	 case 28:
+	    unick = "~";
+	    break;
+	 case 29:
+	    unick = "~";
+	    break;
+	 case 30:
+	    unick = "~";
+	    break;
+	 case 31:
+	    unick = "~";
+	    break;
+	 case 32:
+	    unick = "~";
+	    break;
+	 case 33:
+	    unick = "~";
+	    break;
+         case 34:
+	    unick = "~";
+	    break;
+	 case 35:
+	    unick = "~";
+	    break;
+	 case 36:
+	    unick = "~";
+	    break;
+	 case 37:
+	    unick = "~";
+	    break;
+	 case 38:
+	    unick = "~";
+	    break;
+	 case 39:
+	    unick = "~";
+	    break;
+	 case 40:
+	    unick = "~";
+	    break;
+	 case 41:
+	    unick = "~";
+	    break;
+	 case 42:
+	    unick = "~";
+	    break;
+	 case 43:
+	    unick = "~";
+	    break;
+	 case 44:
+	    unick = "~";
+	    break;
+	 case 45:
+	    unick = "~";
+	    break;
+	 case 46:
+	    unick = "~";
+	    break;
+         case 47:
+	    unick = "~";
+	    break;
+	 case 48:
+	    unick = "~";
+	    break;
+	 case 49:
+	    unick = "~";
+	    break;
+	 case 50:
+	    unick = "#";
+	    break;
+	 case 51:
+	    unick = "#";
+	    break;
+	 case 52:
+	    unick = "#";
+	    break;
+	 case 53:
+	    unick = "#";
+	    break;
+	 case 54:
+            unick = "#";
+	    break;
+	 case 55:
+	    unick = "#";
+	    break;
+	 case 56:
+	    unick = "#";
+	    break;
+	 case 57:
+	    unick = "#";
+	    break;
+	 case 58:
+	    unick = "#";
+	    break;
+	 case 59:
+	    unick = "#";
+	    break;
+         case 60:
+	    unick = "?#";
+	    break;
+	 case 61:
+	    unick = "?#";
+	    break;
+	 case 62:
+	    unick = "?#";
+	    break;
+	 case 63:
+	    unick = "?#";
+	    break;
+	 case 64:
+	    unick = "?#";
+	    break;
+	 case 65:
+	    unick = "?#";
+	    break;
+	 case 67:
+	    unick = "?#";
+	    break;
+	 case 68:
+	    unick = "?#";
+	    break;
+	 case 69:
+	    unick = "?#";
+	    break;
+	 case 70:
+	    unick = "@#";
+	    break;
+	 case 71:
+	    unick = "@#";
+	    break;
+	 case 72:
+	    unick = "@#";
+	    break;
+	 case 73:
+	    unick = "@#";
+	    break;
+         case 74:
+	    unick = "@#";
+	    break;
+	 case 75:
+	    unick = "@#";
+	    break;
+	 case 76:
+	    unick = "@#";
+	    break;
+	 case 77:
+	    unick = "@#";
+	    break;
+	 case 78:
+	    unick = "@#";
+	    break;
+	 case 79:
+	    unick = "@#";
+	    break;
+	 case 80:
+	    unick = "?@#";
+	    break;
+	 case 81:
+	    unick = "?@#";
+	    break;
+         case 82:
+	    unick = "?@#";
+	    break;
+	 case 83:
+	    unick = "?@#";
+	    break;
+	 case 84:
+	    unick = "?@#";
+	    break;
+	 case 85:
+	    unick = "?@#";
+	    break;
+	 case 86:
+	    unick = "?@#";
+	    break;
+	 case 87:
+	    unick = "?@#";
+	    break;
+	 case 88:
+	    unick = "?@#";
+	    break;
+	 case 89:
+	    unick = "?@#";
+	    break;
+	 case 90:
+	    unick = "?#?";
+	    break;
+	 case 91:
+	    unick = "?#?";
+	    break;
+	 case 92:
+	    unick = "?#?";
+	    break;
+	 case 93:
+	    unick = "?#?";
+	    break;
+	 case 94:
+	    unick = "?#?";
+	    break;
+         case 95:
+	    unick = "?#?";
+	    break;
+	 case 96:
+	    unick = "?#?";
+	    break;
+	 case 97:
+	    unick = "?#?";
+	    break;
+	 case 98:
+	    unick = "?#?";
+	    break;
+	 case 99:
+	    unick = "?#?";
+	    break;
+	 case 100:
+	    unick = "##";
+	    break;
+	 case 101:
+	    unick = "?##";
+	    break;
+	 case 150:
+	    unick = "?##";
+	    break;
+	   default:
+	    unick = "";
+	    break;
+}
+sprintf(ret, "<%s%s>", unick, nick);
+return ret;
+}
 
-}
-}
 void debug(const char* txt, ...)
 {
 
