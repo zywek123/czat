@@ -497,7 +497,11 @@ char buf[128];
 sprintf(buf, "select * from `userzy` where `numer` = %i", kto);
 mysql_query(&conn, buf);
 pfprintf("Pobieram wynik\n");
-sqlres = mysql_store_result(&conn);
+if((sqlres = mysql_store_result(&conn)) == NULL)
+{
+pfprintf("Błąd. Brak tabel\n");
+exit(1);
+}
 if(mysql_num_rows(sqlres) == 0)
 {
 pfprintf("Nic tu nie ma\n");
