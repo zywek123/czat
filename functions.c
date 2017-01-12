@@ -609,16 +609,12 @@ return -1;
 char** strsplit(char* text, char* wsk)
 {
 char** res = NULL;
-char* p = strtok (text, wsk);
+char* p = strtok (text, " ");
 int n_spaces = 0, i;
 while (p) {
-  res = realloc(res, sizeof (char*) * ++n_spaces);
-  if (res == NULL)
-pfprintf("Błąd alokowania pamięci\n");
+if((res = realloc(res, sizeof (char*) * ++n_spaces)) == NULL)
     exit (-1);
-
   res[n_spaces-1] = p;
-
   p = strtok (NULL, wsk);
 }
 res = realloc (res, sizeof (char*) * (n_spaces+1));

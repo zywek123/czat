@@ -1,6 +1,6 @@
 CC = gcc
 CXX = g++
-CCFLAGS = -pthread -O2
+CCFLAGS = -pthread -O2 -g
 LIBS = -lc -lmysqlclient  -lgadu -lcrypto
 OBJS =\
 cmd.o \
