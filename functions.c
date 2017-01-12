@@ -628,3 +628,11 @@ strcat(wyn, text[i]);
 }
 return wyn;
 }
+void msgall(const char* text, int* rec)
+{
+for(int i = 0; i <= sizearray(rec); i++)
+{
+addmsg(text, rec[i]);
+}
+}
+

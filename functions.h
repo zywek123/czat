@@ -33,6 +33,7 @@ void pfprintf(char* txt, ...);
 int cmp(char* msg1, char* msg2);
 char** strsplit(char* text, char* wsk);
 char* strglue(char** text);
+void msgall(const char* text, int* rec);
 struct user
 {
 int id;
