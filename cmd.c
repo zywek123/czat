@@ -1,11 +1,4 @@
 #include "cmd.h"
-<<<<<<< HEAD
-int preprocess_cmd(char* cmd_name)
-{
-
-return 0;
-}
-=======
 extern struct gg_session *s;
 extern struct gg_event *e;
 extern struct gg_login_params p;
@@ -37,4 +30,3 @@ char buf[512];
 sprintf(buf, "GgCzat primary edition v 1.0 © 2017 Żywek.\nInformacje systemowe:\n%s", info);
 addmsg((const char*)buf, u->numer);
 }
->>>>>>> bugs

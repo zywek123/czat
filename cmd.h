@@ -17,14 +17,6 @@
 #include <dirent.h>
 #include <wait.h>
 #include <signal.h>
-<<<<<<< HEAD
-#include "cmd.h"
-#include "minIni.h"
-
-int preprocess_cmd(char* cmd_name);
-
-#endif
-=======
 #include "functions.h"
 #include "minIni.h"
 #include "main.h"
@@ -32,4 +24,4 @@ int preprocess_cmd(char* cmd_name);
 
 void cmd_ver(void);
 #endif
->>>>>>> bugs
+

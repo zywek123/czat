@@ -150,10 +150,6 @@ else
 char buf[128];
 sprintf(buf, "select `komenda`,`staff` from `komendy` where `komenda` = '%s' or `alias` = '%s'", e->event.msg.message, e->event.msg.message);
 int fields;
-<<<<<<< HEAD
-memset(&fields, 0, sizeof(&fields));
-=======
->>>>>>> bugs
 mysql_query(&conn, buf);
 sqlres = mysql_store_result(&conn);
 if(mysql_num_rows(sqlres) == 0)
@@ -188,10 +184,6 @@ char buf[256];
 sprintf(buf, "update `userzy` set `znaki` = znaki + %d, `wyrazy` = wyrazy + %d, wiadomosci = wiadomosci + 1, `xp` = xp + %d, `zl` = zl + %d, `czas` = %d where `numer` = %d", strl, strw, strl, strzl, czas, u->numer);
 mysql_query(&conn, buf);
 int fields;
-<<<<<<< HEAD
-memset(&fields, 0, sizeof(&fields));
-=======
->>>>>>> bugs
 char buf2[128];
 sprintf(buf2, "select `numer` from `userzy` where `online` = 1 and not `numer` = %d", u->numer);
 mysql_query(&conn, buf2);
@@ -205,8 +197,6 @@ break;
 else
 {
 char* nick = fnick(u->nick, u->staff);
-<<<<<<< HEAD
-=======
 char buf[512];
 sprintf(buf, "%s: %s", nick, e->event.msg.message);
 int* numonline = onlinenum();
@@ -216,20 +206,13 @@ msgall(buf, zwr);
 
 
 
->>>>>>> bugs
 
 
 
 
 
 
-<<<<<<< HEAD
-
-
-
-=======
 free(u);
->>>>>>> bugs
 }
 }
 break;

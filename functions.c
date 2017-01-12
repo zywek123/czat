@@ -597,9 +597,6 @@ free(mal2);
 }
 int cmp(char* msg1, char* msg2)
 {
-<<<<<<< HEAD
-return strcmp(msg1, msg2);
-=======
 if(strcmp(msg1, msg2) == 0)
 {
 return 0;
@@ -608,12 +605,10 @@ else
 {
 return -1;
 }
->>>>>>> bugs
 }
 char** strsplit(char* text, char* wsk)
 {
 char** res = NULL;
-<<<<<<< HEAD
 char* p = strtok (text, wsk);
 int n_spaces = 0, i;
 while (p) {
@@ -622,13 +617,6 @@ while (p) {
 pfprintf("Błąd alokowania pamięci\n");
     exit (-1);
 
-  res[n_spaces-1] = p;
-=======
-char* p = strtok (text, " ");
-int n_spaces = 0, i;
-while (p) {
-if((res = realloc(res, sizeof (char*) * ++n_spaces)) == NULL)
-    exit (-1);
   res[n_spaces-1] = p;
   p = strtok (NULL, wsk);
 }
@@ -656,12 +644,4 @@ for(int i = 0; i <= sizearray(rec); i++)
 addmsg(text, rec[i]);
 }
 }
->>>>>>> bugs
 
-  p = strtok (NULL, wsk);
-}
-res = realloc (res, sizeof (char*) * (n_spaces+1));
-res[n_spaces] = 0;
-return res;
-free(res);
-}
