@@ -4,6 +4,7 @@ struct gg_session *s;
 struct gg_event *e;
 struct gg_login_params p;
 struct user *u;
+struct utsname *uts;
 gg_pubdir50_t req;
 gg_pubdir50_t res;
 MYSQL conn;
@@ -122,7 +123,7 @@ pfprintf("Użytkownik istnieje\n");
 if(u->online == 0)
 {
 pfprintf("Użytkownik nie jest zalogowany\n");
-if(strcmp(e->event.msg.message,"/join") != 0 || strcmp(e->event.msg.message,".join") != 0 || strcmp(e->event.msg.message,"/j") != 0 || strcmp(e->event.msg.message,".j") != 0)
+if(strcmp(e->event.msg.message,"/join") != 0 || strcmp(e->event.msg.message,".join") != 0 || strcmp(e->event.msg.message,"/j") != 0 || strcmp(e->event.msg.message,".j") != 0 || !strcmp(e->event.msg.message,"/ver") != 0 || strcmp(e->event.msg.message,".ver") != 0)
 {
 pfprintf("Użytkownik %d nie wpisał ani .join, ani /join, ani .j ani /j\n", u->numer);
 addmsg("Nie jesteś zalogowany! Wpisz /join, aby się zalogować. :)", u->numer);
@@ -149,7 +150,6 @@ else
 char buf[128];
 sprintf(buf, "select `komenda`,`staff` from `komendy` where `komenda` = '%s' or `alias` = '%s'", e->event.msg.message, e->event.msg.message);
 int fields;
-memset(&fields, 0, sizeof(&fields));
 mysql_query(&conn, buf);
 sqlres = mysql_store_result(&conn);
 if(mysql_num_rows(sqlres) == 0)
@@ -184,7 +184,6 @@ char buf[256];
 sprintf(buf, "update `userzy` set `znaki` = znaki + %d, `wyrazy` = wyrazy + %d, wiadomosci = wiadomosci + 1, `xp` = xp + %d, `zl` = zl + %d, `czas` = %d where `numer` = %d", strl, strw, strl, strzl, czas, u->numer);
 mysql_query(&conn, buf);
 int fields;
-memset(&fields, 0, sizeof(&fields));
 char buf2[128];
 sprintf(buf2, "select `numer` from `userzy` where `online` = 1 and not `numer` = %d", u->numer);
 mysql_query(&conn, buf2);
@@ -198,6 +197,12 @@ break;
 else
 {
 char* nick = fnick(u->nick, u->staff);
+char buf[512];
+sprintf(buf, "%s: %s", nick, e->event.msg.message);
+int* numonline = onlinenum();
+int* zwr = rback();
+msgall(buf, numonline);
+msgall(buf, zwr);
 
 
 
@@ -207,6 +212,7 @@ char* nick = fnick(u->nick, u->staff);
 
 
 
+free(u);
 }
 }
 break;
@@ -248,6 +254,15 @@ break;
 
 int main(int argc, char **argv)
 {
+FILE *fp;
+if((fp = fopen("/proc/version", "r")) == NULL)
+{
+pfprintf("Wystąpił problem z odczytem /proc/version:\n");
+}
+char info[256];
+fgets(info, 256, fp);
+fclose(fp);
+pfprintf("GGCzat ver 1.0 PID %d kernel: %s\n", getpid(), info);
     gg_debug_level = 0;
     struct timeval czas_selecta;
     time_t czas_kick =0 ;

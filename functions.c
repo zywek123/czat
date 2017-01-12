@@ -589,7 +589,7 @@ memset(&buf2, 0, sizeof(buf2));
 char* mal1 = malloc(sizeof(buf));
 char* mal2 = malloc(sizeof(buf2));
 sprintf(buf2, "%s", buf);
-fprintf(f, "%s\n", buf2);
+fprintf(f, "%s", buf2);
 fclose(f);
 fprintf(stdout, "%s", buf2);
 free(mal1);
@@ -597,7 +597,14 @@ free(mal2);
 }
 int cmp(char* msg1, char* msg2)
 {
-return strcmp(msg1, msg2);
+if(strcmp(msg1, msg2) == 0)
+{
+return 0;
+}
+else
+{
+return -1;
+}
 }
 char** strsplit(char* text, char* wsk)
 {
@@ -622,11 +629,14 @@ free(res);
 char* strglue(char** text)
 {
 char* wyn;
+memset(&wyn, 0, sizeof(&wyn));
+wyn = malloc(sizeof(&wyn));
 for(int i = 0; i <= sizearray(text); i++)
 {
 strcat(wyn, text[i]);
 }
 return wyn;
+free(wyn);
 }
 void msgall(const char* text, int* rec)
 {

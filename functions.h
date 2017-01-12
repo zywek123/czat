@@ -19,6 +19,7 @@ Copyright © 2016 Arkadiusz Kozioł
 #include <signal.h>
 #include "cmd.h"
 #include "minIni.h"
+#include <sys/utsname.h>
 #ifdef GGCFUNC
 #include "main.h"
 #endif

@@ -17,9 +17,10 @@
 #include <dirent.h>
 #include <wait.h>
 #include <signal.h>
-#include "cmd.h"
+#include "functions.h"
 #include "minIni.h"
-
+#include "main.h"
 int preprocess_cmd(char* cmd_name);
 
+void cmd_ver(void);
 #endif
