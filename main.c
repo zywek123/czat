@@ -174,6 +174,30 @@ preprocess_cmd(row[0]);
 }
 break;
 }
+else
+{
+int strl = strlen(e->event.msg.message);
+int strw;
+float strzl = strl * 0.001;
+int czas = time(NULL);
+char buf[256];
+sprintf(buf, "update `userzy` set `znaki` = znaki + %d, `wyrazy` = wyrazy + %d, wiadomosci = wiadomosci + 1, `xp` = xp + %d, `zl` = zl + %d, `czas` = %d where `numer` = %d", strl, strw, strl, strzl, czas, u->numer);
+mysql_query(&conn, buf);
+int fields;
+memset(&fields, 0, sizeof(&fields));
+char buf2[128];
+sprintf(buf2, "select `numer` from `userzy` where `online` = 1 and not `numer` = %d", u->numer);
+mysql_query(&conn, buf2);
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+addmsg("Nie mozesz pisać gdyż nie ma na czacie nikogo prócz Ciebie!", u->numer);
+free(u);
+break;
+}
+else
+{
+char* nick = fnick(u->nick, u->staff);
 
 
 
@@ -183,6 +207,8 @@ break;
 
 
 
+}
+}
 break;
 
         case GG_EVENT_PUBDIR50_SEARCH_REPLY:
