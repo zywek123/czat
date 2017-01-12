@@ -19,6 +19,7 @@ Copyright © 2016 Arkadiusz Kozioł
 #include <signal.h>
 #include "cmd.h"
 #include "minIni.h"
+#include <sys/utsname.h>
 #ifdef GGCFUNC
 #include "main.h"
 #endif
@@ -32,6 +33,11 @@ int get_ui(int kto);
 void pfprintf(char* txt, ...);
 int cmp(char* msg1, char* msg2);
 char** strsplit(char* text, char* wsk);
+<<<<<<< HEAD
+=======
+char* strglue(char** text);
+void msgall(const char* text, int* rec);
+>>>>>>> bugs
 struct user
 {
 int id;

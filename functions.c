@@ -589,7 +589,7 @@ memset(&buf2, 0, sizeof(buf2));
 char* mal1 = malloc(sizeof(buf));
 char* mal2 = malloc(sizeof(buf2));
 sprintf(buf2, "%s", buf);
-fprintf(f, "%s\n", buf2);
+fprintf(f, "%s", buf2);
 fclose(f);
 fprintf(stdout, "%s", buf2);
 free(mal1);
@@ -597,11 +597,23 @@ free(mal2);
 }
 int cmp(char* msg1, char* msg2)
 {
+<<<<<<< HEAD
 return strcmp(msg1, msg2);
+=======
+if(strcmp(msg1, msg2) == 0)
+{
+return 0;
+}
+else
+{
+return -1;
+}
+>>>>>>> bugs
 }
 char** strsplit(char* text, char* wsk)
 {
 char** res = NULL;
+<<<<<<< HEAD
 char* p = strtok (text, wsk);
 int n_spaces = 0, i;
 while (p) {
@@ -611,6 +623,40 @@ pfprintf("Błąd alokowania pamięci\n");
     exit (-1);
 
   res[n_spaces-1] = p;
+=======
+char* p = strtok (text, " ");
+int n_spaces = 0, i;
+while (p) {
+if((res = realloc(res, sizeof (char*) * ++n_spaces)) == NULL)
+    exit (-1);
+  res[n_spaces-1] = p;
+  p = strtok (NULL, wsk);
+}
+res = realloc (res, sizeof (char*) * (n_spaces+1));
+res[n_spaces] = 0;
+return res;
+free(res);
+}
+char* strglue(char** text)
+{
+char* wyn;
+memset(&wyn, 0, sizeof(&wyn));
+wyn = malloc(sizeof(&wyn));
+for(int i = 0; i <= sizearray(text); i++)
+{
+strcat(wyn, text[i]);
+}
+return wyn;
+free(wyn);
+}
+void msgall(const char* text, int* rec)
+{
+for(int i = 0; i <= sizearray(rec); i++)
+{
+addmsg(text, rec[i]);
+}
+}
+>>>>>>> bugs
 
   p = strtok (NULL, wsk);
 }
