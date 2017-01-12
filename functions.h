@@ -32,6 +32,7 @@ int get_ui(int kto);
 void pfprintf(char* txt, ...);
 int cmp(char* msg1, char* msg2);
 char** strsplit(char* text, char* wsk);
+char* strglue(char** text);
 struct user
 {
 int id;

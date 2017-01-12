@@ -619,3 +619,12 @@ res[n_spaces] = 0;
 return res;
 free(res);
 }
+char* strglue(char** text)
+{
+char* wyn;
+for(int i = 0; i <= sizearray(text); i++)
+{
+strcat(wyn, text[i]);
+}
+return wyn;
+}
