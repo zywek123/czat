@@ -96,8 +96,7 @@ gg_notify(s, NULL, 0);
 break;
         case GG_EVENT_CONN_FAILED:
             perror("Cannot connect\n");
-	        // ponawiam połączenie
-	    	polacz();
+	        polacz();
             break;
         case GG_EVENT_MSG:
 pfprintf("Alokowanie pamięci dla struktury użytkownika... Rozmiar: %d bajtów\n", sizeof(&u));
@@ -106,7 +105,7 @@ if(!(u = malloc(sizeof(*u))))
 printf("Błąd alokowania pamięci!\n");
 exit(1);
 }
-pfprintf("Pobranie numera\n");
+pfprintf("Pobranie numeru\n");
 if(get_ui(e->event.msg.sender) != 0)
 {
 pfprintf("Użytkownik o nr %d nie istnieje w bazie danych!", e->event.msg.sender);
@@ -138,36 +137,103 @@ addmsg("Jesteś na zw. Nie możesz pisać", u->numer);
 free(u);
 break;
 }
+if((*e->event.msg.message == '>') || (*e->event.msg.message == 47) || (*e->event.msg.message == 46))
+{
+if(strlen(e->event.msg.message) > 200)
+{
+addmsg("Twoja wiadomość jest zbyt długa. Maks: 200 znaków!", u->numer);
+free(u);
+}
+else
+{
+char buf[128];
+sprintf(buf, "select `komenda`,`staff` from `komendy` where `komenda` = '%s' or `alias` = '%s'", e->event.msg.message, e->event.msg.message);
+int fields;
+memset(&fields, 0, sizeof(&fields));
+mysql_query(&conn, buf);
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+addmsg("Podana komenda nie istnieje!", u->numer);
+free(u);
+}
+else
+{
+fields = mysql_num_fields(sqlres);
+int staff = u->staff;
+if((row = mysql_fetch_row(sqlres)))
+{
+if(*row[1] > staff)
+{
+addmsg("Nie posiadasz wystarczających uprawnień by wykonać tę komendę!", u->numer);
+free(u);
+}
+preprocess_cmd(row[0]);
+}
+}
+}
+break;
+}
+else
+{
+int strl = strlen(e->event.msg.message);
+int strw;
+float strzl = strl * 0.001;
+int czas = time(NULL);
+char buf[256];
+sprintf(buf, "update `userzy` set `znaki` = znaki + %d, `wyrazy` = wyrazy + %d, wiadomosci = wiadomosci + 1, `xp` = xp + %d, `zl` = zl + %d, `czas` = %d where `numer` = %d", strl, strw, strl, strzl, czas, u->numer);
+mysql_query(&conn, buf);
+int fields;
+memset(&fields, 0, sizeof(&fields));
+char buf2[128];
+sprintf(buf2, "select `numer` from `userzy` where `online` = 1 and not `numer` = %d", u->numer);
+mysql_query(&conn, buf2);
+sqlres = mysql_store_result(&conn);
+if(mysql_num_rows(sqlres) == 0)
+{
+addmsg("Nie mozesz pisać gdyż nie ma na czacie nikogo prócz Ciebie!", u->numer);
+free(u);
+break;
+}
+else
+{
+char* nick = fnick(u->nick, u->staff);
 
+
+
+
+
+
+
+
+
+}
+}
 break;
 
-	    // zwrot poszukiwania osoby
         case GG_EVENT_PUBDIR50_SEARCH_REPLY:
 
      		break;
 
-	    // tutaj sprawdzanie tablicy
-		// e->event.notify lista osób
-		// dostępnych
         case GG_EVENT_NOTIFY:
-	     printf("Osobnik w wersji starszej od 6.0 :P\n");
+	pfprintf("Pobrano listę.\n");
              break;
 
 	 case GG_EVENT_NOTIFY60:
 
-	     perror("GG_EVENT_NOTIFY60: Received list.\n");
+pfprintf("GG_EVENT_NOTIFY60: Pobrano listę\n");
          break;
 
 	 case GG_EVENT_USERLIST:
-	 //    import/export listy userów
-         break;
+
+ break;
 
      case GG_EVENT_STATUS:
-	     printf("Ktoś %d zmienił status %d\n", e->event.status.uin, e->event.status.status);
+pfprintf("Ktoś %d zmienił status %d\n", e->event.status.uin, e->event.status.status);
          break;
 
 	 case GG_EVENT_STATUS60:
-	      printf("Ktoś %d zmienił status %d\n", e->event.status60.uin, e->event.status60.status);
+pfprintf("Ktoś %d zmienił status %d\n", e->event.status60.uin, e->event.status60.status);
          break;
 
 
@@ -201,11 +267,11 @@ p.encoding = GG_ENCODING_UTF8;
 
 
     if ((plik = fopen("gg.PID","w")) == NULL) {
-         perror("Saving PID");
+pfprintf("Saving PID");
          exit (1);
      }
 
-     fprintf(plik,"%d",getpid());
+fprintf(plik,"%d",getpid());
      fclose(plik);
 mysql_init(&conn);
 char host[128];
@@ -224,10 +290,10 @@ ini_gets("db", "pass", "nopass", passwd, sizearray(passwd), "gg.cfg");
 char* mempasswd = malloc(sizeof(passwd));
 ini_gets("db", "name", "base", base, sizearray(base), "gg.cfg");
 char* membase = malloc(sizeof(base));
-printf("Connecting to %s %s %s %s\n", host, login, passwd, base);
+pfprintf("Connecting to %s %s %s %s\n", host, login, passwd, base);
 if(!mysql_real_connect(&conn, host, login, passwd, base, 0, NULL, 0))
 {
-printf("#%i: %s", mysql_errno(&conn), mysql_error(&conn));
+pfprintf("#%i: %s", mysql_errno(&conn), mysql_error(&conn));
 exit(1);
 }
 free(memhost);
@@ -235,7 +301,7 @@ free(memlogin);
 free(mempasswd);
 free(membase);
     check_cfg();
-	printf("Connecting ...\n");
+pfprintf("Connecting ...\n");
 	fflush(0);
 
     signal(SIGCHLD, sig_chld);
@@ -255,7 +321,7 @@ signal(SIGABRT, sig_quit);
 
         if (s && s->state == GG_STATE_CONNECTED && time(NULL) - czas > 60) {
 			msgc=0;
-            perror("Time to ping ...\n");
+            pfprintf("Time to ping ...\n");
             if (czas) {
                 gg_ping(s);
             }
@@ -271,11 +337,11 @@ signal(SIGABRT, sig_quit);
         czas_selecta.tv_sec = 1;
         czas_selecta.tv_usec = 0;
         if (select(s->fd + 1, &rd, &wr, &ex, &czas_selecta) == -1) {
-             printf("Error: %s", strerror(errno));
+             pfprintf("Error: %s", strerror(errno));
              polacz();
         }
         if (FD_ISSET(s->fd, &ex)) {
-             printf("Error: %s", strerror(errno));
+             pfprintf("Error: %s", strerror(errno));
              polacz();
         }
         if (FD_ISSET(s->fd, &rd) || FD_ISSET(s->fd, &wr))

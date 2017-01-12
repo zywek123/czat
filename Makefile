@@ -1,6 +1,6 @@
 CC = gcc
 CXX = g++
-CCFLAGS = -pthread -O2 -g
+CCFLAGS = -pthread -O2
 LIBS = -lc -lmysqlclient  -lgadu -lcrypto
 OBJS =\
 cmd.o \
@@ -10,6 +10,7 @@ minIni.o
 all: main
 clean:
 	rm -f *.o
+	rm -f czat
 .c.o:
 	$(CC) -c $(CCFLAGS) $<
 .cpp.o:

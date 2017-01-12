@@ -23,13 +23,15 @@ Copyright © 2016 Arkadiusz Kozioł
 #include "main.h"
 #endif
 #define sizearray(a) (sizeof(a) / sizeof((a)[0]))
-char* nick(char* nick,          int  staff);
+char* fnick(char* nick,          int  staff);
 int* onlinenum(void);
 int* rback(void);
 void debug(const char* txt, ...);
 void addmsg(const char* text, int rec);
 int get_ui(int kto);
 void pfprintf(char* txt, ...);
+int cmp(char* msg1, char* msg2);
+char** strsplit(char* text, char* wsk);
 struct user
 {
 int id;
