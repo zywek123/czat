@@ -20,6 +20,7 @@ Copyright © 2016 Arkadiusz Kozioł
 #include "cmd.h"
 #include "minIni.h"
 #include <sys/utsname.h>
+#include <glib.h>
 #ifdef GGCFUNC
 #include "main.h"
 #endif
@@ -33,7 +34,7 @@ int get_ui(int kto);
 void pfprintf(char* txt, ...);
 int cmp(char* msg1, char* msg2);
 char** strsplit(char* text, char* wsk);
-char* strglue(char** text);
+char* strglue(char** text, char* wsk);
 void msgall(const char* text, int* rec);
 struct user
 {

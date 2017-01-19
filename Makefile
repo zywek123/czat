@@ -1,7 +1,7 @@
 CC = gcc
 CXX = g++
-CCFLAGS = -pthread -O2 -g
-LIBS = -lc -lmysqlclient  -lgadu -lcrypto
+CCFLAGS = -pthread -O2 -g -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+LIBS = -lc -lmysqlclient  -lgadu -lcrypto -lglib-2.0
 OBJS =\
 cmd.o \
 functions.o \

@@ -608,31 +608,15 @@ return -1;
 }
 char** strsplit(char* text, char* wsk)
 {
-char** res = NULL;
-char* p = strtok (text, " ");
-int n_spaces = 0, i;
-while (p) {
-if((res = realloc(res, sizeof (char*) * ++n_spaces)) == NULL)
-    exit (-1);
-  res[n_spaces-1] = p;
-  p = strtok (NULL, wsk);
+gchar** spl = g_strsplit_set((gchar*)text, (gchar*)wsk, G_MAXINT);
+return (char**)spl;
+g_strfreev(spl);
 }
-res = realloc (res, sizeof (char*) * (n_spaces+1));
-res[n_spaces] = 0;
-return res;
-free(res);
-}
-char* strglue(char** text)
+char* strglue(char** text, char* wsk)
 {
-char* wyn;
-memset(&wyn, 0, sizeof(&wyn));
-wyn = malloc(sizeof(&wyn));
-for(int i = 0; i <= sizearray(text); i++)
-{
-strcat(wyn, text[i]);
-}
-return wyn;
-free(wyn);
+gchar* tmp = g_strjoinv(wsk, text);
+return (char*)tmp;
+g_free(tmp);
 }
 void msgall(const char* text, int* rec)
 {
