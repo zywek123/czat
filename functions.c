@@ -612,7 +612,7 @@ return -1;
 }
 char** strsplit(char* text, char* wsk)
 {
-gchar** spl = g_strsplit_set((gchar*)text, (gchar*)wsk, G_MAXINT);
+gchar** spl = g_strsplit_set(text, wsk, G_MAXINT);
 return (char**)spl;
 g_strfreev(spl);
 }
